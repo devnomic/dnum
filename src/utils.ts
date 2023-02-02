@@ -1,6 +1,12 @@
 export function divideAndRound(dividend: bigint, divisor: bigint) {
-  const invertSign = BigInt(dividend < BigInt(0) ? -1 : 1);
-  return (dividend * invertSign + divisor / BigInt(2)) / divisor * invertSign;
+  // https://github.com/nodef/extra-bigint/blob/master/src/index.ts#L69
+  if (divisor < 0n) {
+    dividend = -dividend;
+    divisor = -divisor;
+  }
+  return dividend >= 0n
+    ? dividend / divisor
+    : (dividend - divisor + 1n) / divisor;
 }
 
 export function splitNumber(number: string) {
